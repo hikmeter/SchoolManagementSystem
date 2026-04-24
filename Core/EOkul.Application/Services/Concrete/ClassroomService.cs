@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using EOkul.Application.Dtos.ClassroomDtos;
+using EOkul.Application.Dtos.ResponseDtos;
 using EOkul.Application.Interfaces;
 using EOkul.Application.Services.Abstract;
 using EOkul.Domain.Entities;
@@ -29,10 +30,22 @@ namespace EOkul.Application.Services.Concrete
             await _repository.DeleteAsync(value);
         }
 
-        public async Task<List<ResultClassroomDto>> GetAllClassrooms()
+        public async Task<ResponseDto<List<ResultClassroomDto>>> GetAllClassrooms()
         {
-            var values = await _repository.GetAllAsync();
-            return _mapper.Map<List<ResultClassroomDto>>(values);
+            try
+            {
+                var values = await _repository.GetAllAsync();
+                if (values.Count == 0)
+                {
+                    return new ResponseDto<List<ResultClassroomDto>> { isSuccess = false, Message = "Sınıf Bulunamadı!", ErrorCode = ErrorCode.NotFound };
+                }
+                var result = _mapper.Map<List<ResultClassroomDto>>(values);
+                return new ResponseDto<List<ResultClassroomDto>> { isSuccess = true, Data = result };
+            }
+            catch (Exception ex)
+            {
+                return new ResponseDto<List<ResultClassroomDto>> { isSuccess = false, Message = ex.Message, ErrorCode = ErrorCode.Exception };
+            }
         }
 
         public async Task<GetClassroomByIdDto> GetClassroomById(int id)

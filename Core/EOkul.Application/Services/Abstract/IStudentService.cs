@@ -1,4 +1,5 @@
-﻿using EOkul.Application.Dtos.StudentDtos;
+﻿using EOkul.Application.Dtos.ResponseDtos;
+using EOkul.Application.Dtos.StudentDtos;
 
 namespace EOkul.Application.Services.Abstract
 {
@@ -6,8 +7,8 @@ namespace EOkul.Application.Services.Abstract
     {
         Task<List<ResultStudentDto>> GetAllStudentsAsync();
         Task<GetStudentByIdDto> GetStudentByIdAsync(int id);
-        Task CreateStudent(CreateStudentDto dto);
-        Task UpdateStudent(UpdateStudentDto dto);
+        Task<ResponseDto<object>> CreateStudent(CreateStudentDto dto);
+        Task<ResponseDto<object>> UpdateStudent(UpdateStudentDto dto);
         Task DeleteStudent(int id);
         Task<List<StudentWithClassroomsDto>> GetAllStudentsWithClassroomsAsync();
         Task<GetStudentWithClassroomByIdDto> GetStudentWithClassroomNameByIdAsync(int id);

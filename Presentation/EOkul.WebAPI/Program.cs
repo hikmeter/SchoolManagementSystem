@@ -4,6 +4,7 @@ using EOkul.Application.Services.Abstract;
 using EOkul.Application.Services.Concrete;
 using EOkul.Persistence.Context;
 using EOkul.Persistence.Repository;
+using FluentValidation;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,6 +21,8 @@ builder.Services.AddScoped<IStudentRepository, StudentRepository>();
 builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
 
 builder.Services.AddAutoMapper(typeof(GeneralMapping));
+builder.Services.AddValidatorsFromAssemblyContaining<CreateStudentValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<UpdateStudentValidator>();
 
 builder.Services.AddOpenApi();
 builder.Services.AddAuthorization();
