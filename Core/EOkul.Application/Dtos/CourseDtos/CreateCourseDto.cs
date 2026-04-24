@@ -4,6 +4,6 @@
     {
         public string Name { get; set; }
         public int WeeklyHours { get; set; }
-        //Oluşturulan her kurs otomatik aktif olarak seçilir.
+        public bool IsActive { get; set; }
     }
 }

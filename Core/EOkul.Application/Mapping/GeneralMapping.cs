@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using EOkul.Application.Dtos.ClassroomDtos;
+using EOkul.Application.Dtos.CourseDtos;
 using EOkul.Application.Dtos.StudentDtos;
 using EOkul.Application.Dtos.TeacherDtos;
 using EOkul.Domain.Entities;
@@ -27,6 +28,11 @@ namespace EOkul.Application.Mapping
             CreateMap<Teacher, ResultTeacherDto>().ReverseMap();
             CreateMap<Teacher, GetTeacherByIdDto>().ReverseMap();
             CreateMap<Teacher, GetAllTeachersWithClassroomsAndCourses>().ForMember(dest => dest.ClassroomCount, opt => opt.MapFrom(src => src.Classrooms.Count())).ForMember(dest => dest.CourseCount, opt => opt.MapFrom(src => src.CourseAssignments.Distinct().Count()));
+
+            CreateMap<CreateCourseDto, Course>().ForMember(dest => dest.IsActive, opt => opt.MapFrom(src => true));
+            CreateMap<Course, UpdateCourseDto>().ReverseMap();
+            CreateMap<Course, ResultCourseDto>().ReverseMap();
+            CreateMap<Course, GetCourseByIdDto>().ReverseMap();
         }
     }
 }

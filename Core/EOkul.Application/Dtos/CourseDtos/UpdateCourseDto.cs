@@ -1,6 +1,6 @@
 ﻿namespace EOkul.Application.Dtos.CourseDtos
 {
-    public class UpdateCourseDTO
+    public class UpdateCourseDto
     {
         public int CourseId { get; set; }
         public string Name { get; set; }

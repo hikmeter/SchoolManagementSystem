@@ -1,4 +1,5 @@
-﻿using EOkul.Application.Dtos.TeacherDtos;
+﻿using EOkul.Application.Dtos.ResponseDtos;
+using EOkul.Application.Dtos.TeacherDtos;
 using EOkul.Application.Services.Abstract;
 using Microsoft.AspNetCore.Mvc;
 
@@ -39,15 +40,31 @@ namespace EOkul.WebAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateTeacher(CreateTeacherDto dto)
         {
-            await _teacherService.CreateTeacher(dto);
-            return Ok("Öğretmen Başarıyla Eklendi!");
+            var result = await _teacherService.CreateTeacher(dto);
+            if (!result.isSuccess)
+            {
+                if (result.ErrorCode == ErrorCode.ValidationError)
+                {
+                    return Ok(result);
+                }
+                return BadRequest(result);
+            }
+            return Ok(result);
         }
 
         [HttpPut]
         public async Task<IActionResult> UpdateTeacher(UpdateTeacherDto dto)
         {
-            await _teacherService.UpdateTeacher(dto);
-            return Ok("Öğretmen Başarıyla Güncellendi!");
+            var result = await _teacherService.UpdateTeacher(dto);
+            if (!result.isSuccess)
+            {
+                if (result.ErrorCode == ErrorCode.ValidationError)
+                {
+                    return Ok(result);
+                }
+                return BadRequest(result);
+            }
+            return Ok(result);
         }
 
         [HttpDelete]
