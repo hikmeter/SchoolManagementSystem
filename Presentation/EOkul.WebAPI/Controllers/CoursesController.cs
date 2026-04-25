@@ -23,6 +23,13 @@ namespace EOkul.WebAPI.Controllers
             return Ok(values);
         }
 
+        [HttpGet("active-courses")]
+        public async Task<IActionResult> GetAllActiveCourses()
+        {
+            var values = await _courseService.GetAllActiveCourses();
+            return Ok(values);
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCourseById(int id)
         {
@@ -60,7 +67,7 @@ namespace EOkul.WebAPI.Controllers
             return Ok(result);
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCourse(int id)
         {
             await _courseService.DeleteCourse(id);

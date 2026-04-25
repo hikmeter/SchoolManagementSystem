@@ -11,15 +11,17 @@ namespace EOkul.Application.Services.Concrete
     public class CourseService : ICourseService
     {
         private readonly IRepository<Course> _repository;
+        private readonly ICourseRepository _courseRepository;
         private readonly IValidator<CreateCourseDto> _createValidator;
         private readonly IValidator<UpdateCourseDto> _updateValidator;
         private readonly IMapper _mapper;
-        public CourseService(IRepository<Course> repository, IMapper mapper, IValidator<CreateCourseDto> createValidator, IValidator<UpdateCourseDto> updateValidator)
+        public CourseService(IRepository<Course> repository, IMapper mapper, IValidator<CreateCourseDto> createValidator, IValidator<UpdateCourseDto> updateValidator, ICourseRepository courseRepository)
         {
             _repository = repository;
             _mapper = mapper;
             _createValidator = createValidator;
             _updateValidator = updateValidator;
+            _courseRepository = courseRepository;
         }
 
         public async Task<ResponseDto<object>> CreateCourse(CreateCourseDto dto)
@@ -45,6 +47,12 @@ namespace EOkul.Application.Services.Concrete
         {
             var value = await _repository.GetByIdAsync(id);
             await _repository.DeleteAsync(value);
+        }
+
+        public async Task<List<ResultCourseDto>> GetAllActiveCourses()
+        {
+            var values = await _courseRepository.GetAllActiveCoursesAsync();
+            return _mapper.Map<List<ResultCourseDto>>(values);
         }
 
         public async Task<List<ResultCourseDto>> GetAllCourses()

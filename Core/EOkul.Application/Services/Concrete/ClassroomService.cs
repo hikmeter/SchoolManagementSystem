@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using EOkul.Application.Dtos.ClassroomDtos;
 using EOkul.Application.Dtos.ResponseDtos;
+using EOkul.Application.Dtos.StudentDtos;
 using EOkul.Application.Interfaces;
 using EOkul.Application.Services.Abstract;
 using EOkul.Domain.Entities;
@@ -10,12 +11,14 @@ namespace EOkul.Application.Services.Concrete
     public class ClassroomService : IClassroomService
     {
         private readonly IRepository<Classroom> _repository;
+        private readonly IClassroomRepository _classroomRepository;
         private readonly IMapper _mapper;
 
-        public ClassroomService(IMapper mapper, IRepository<Classroom> repository)
+        public ClassroomService(IMapper mapper, IRepository<Classroom> repository, IClassroomRepository classroomRepository)
         {
             _repository = repository;
             _mapper = mapper;
+            _classroomRepository = classroomRepository;
         }
 
         public async Task CreateClassroom(CreateClassroomDto dto)
@@ -53,6 +56,12 @@ namespace EOkul.Application.Services.Concrete
             var value = await _repository.GetByIdAsync(id);
             return _mapper.Map<GetClassroomByIdDto>(value);
 
+        }
+
+        public async Task<List<ResultStudentDto>> GetStudentsByClassroomId(int id)
+        {
+            var values = await _classroomRepository.GetStudentsByClassroomIdAsync(id);
+            return _mapper.Map<List<ResultStudentDto>>(values);
         }
 
         public async Task UpdateClassroom(UpdateClassroomDto dto)

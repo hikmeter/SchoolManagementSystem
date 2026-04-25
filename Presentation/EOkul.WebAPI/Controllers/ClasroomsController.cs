@@ -29,6 +29,13 @@ namespace EOkul.WebAPI.Controllers
             return Ok(value);
         }
 
+        [HttpGet("{id}-student-list")]
+        public async Task<IActionResult> GetClassroomsStudentList(int id)
+        {
+            var value = await _classroomService.GetStudentsByClassroomId(id);
+            return Ok(value);
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateClassroom(CreateClassroomDto dto)
         {

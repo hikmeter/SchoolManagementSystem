@@ -30,6 +30,13 @@ namespace EOkul.WebAPI.Controllers
             return Ok(value);
         }
 
+        [HttpGet("{query}fast-search")]
+        public async Task<IActionResult> GetStudentByQuery(string query)
+        {
+            var value = await _studentService.GetStudentByQuery(query);
+            return Ok(value);
+        }
+
         [HttpGet("with-classrooms")]
         public async Task<IActionResult> GetStudentsWithClassrooms()
         {

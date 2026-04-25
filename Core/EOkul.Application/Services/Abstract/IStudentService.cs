@@ -7,6 +7,7 @@ namespace EOkul.Application.Services.Abstract
     {
         Task<List<ResultStudentDto>> GetAllStudentsAsync();
         Task<GetStudentByIdDto> GetStudentByIdAsync(int id);
+        Task<GetStudentByIdDto> GetStudentByQuery(string query);
         Task<ResponseDto<object>> CreateStudent(CreateStudentDto dto);
         Task<ResponseDto<object>> UpdateStudent(UpdateStudentDto dto);
         Task DeleteStudent(int id);

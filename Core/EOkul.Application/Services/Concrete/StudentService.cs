@@ -89,9 +89,15 @@ namespace EOkul.Application.Services.Concrete
             return _mapper.Map<GetStudentByIdDto>(value);
         }
 
+        public async Task<GetStudentByIdDto> GetStudentByQuery(string query)
+        {
+            var value = await _studentRepository.GetStudentByQueryAsync(query);
+            return _mapper.Map<GetStudentByIdDto>(value);
+        }
+
         public async Task<GetStudentWithClassroomByIdDto> GetStudentWithClassroomNameByIdAsync(int id)
         {
-            var value = await _studentRepository.GetStudentWithClassroomName(id);
+            var value = await _studentRepository.GetStudentWithClassroomNameAsync(id);
             return _mapper.Map<GetStudentWithClassroomByIdDto>(value);
         }
 

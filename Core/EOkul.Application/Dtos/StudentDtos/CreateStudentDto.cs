@@ -1,4 +1,6 @@
-﻿namespace EOkul.Application.Dtos.StudentDtos
+﻿using EOkul.Domain.Entities;
+
+namespace EOkul.Application.Dtos.StudentDtos
 {
     public class CreateStudentDto
     {
@@ -7,6 +9,7 @@
         public string Name { get; set; }
         public string Surname { get; set; }
         public string TCNumber { get; set; }
+        public Gender Gender { get; set; }
         public DateTime BirthDate { get; set; }
     }
 }

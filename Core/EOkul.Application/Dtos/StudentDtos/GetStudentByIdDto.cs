@@ -1,4 +1,6 @@
-﻿namespace EOkul.Application.Dtos.StudentDtos
+﻿using EOkul.Domain.Entities;
+
+namespace EOkul.Application.Dtos.StudentDtos
 {
     public class GetStudentByIdDto
     {
@@ -9,6 +11,7 @@
         public string Surname { get; set; }
         public string TCNumber { get; set; }
         public DateTime BirthDate { get; set; }
+        public Gender Gender { get; set; }
         //public List<StudentGradeDto> Grades { get; set; }
         //public List<StudentAttendanceDto> Attendances { get; set; }
     }

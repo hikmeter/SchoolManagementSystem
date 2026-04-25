@@ -1,4 +1,6 @@
-﻿namespace EOkul.Application.Dtos.StudentDtos
+﻿using EOkul.Domain.Entities;
+
+namespace EOkul.Application.Dtos.StudentDtos
 {
     public class StudentWithClassroomsDto
     {
@@ -6,5 +8,6 @@
         public string StudentNumber { get; set; }
         public string ClassroomName { get; set; }
         public string FullName { get; set; }
+        public Gender Gender { get; set; }
     }
 }

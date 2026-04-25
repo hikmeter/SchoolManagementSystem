@@ -10,7 +10,14 @@
         public string Surname { get; set; }
         public string TCNumber { get; set; }
         public DateTime BirthDate { get; set; }
+        public Gender Gender { get; set; }
         public ICollection<Grade> Grades { get; set; }
         public ICollection<Attendance> Attendances { get; set; }
+    }
+
+    public enum Gender
+    {
+        Male = 0,
+        Female = 1,
     }
 }
