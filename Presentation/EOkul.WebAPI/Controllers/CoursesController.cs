@@ -1,5 +1,4 @@
 ﻿using EOkul.Application.Dtos.CourseDtos;
-using EOkul.Application.Dtos.ResponseDtos;
 using EOkul.Application.Services.Abstract;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,7 +6,7 @@ namespace EOkul.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CoursesController : ControllerBase
+    public class CoursesController : BaseController
     {
         private readonly ICourseService _courseService;
 
@@ -41,33 +40,17 @@ namespace EOkul.WebAPI.Controllers
         public async Task<IActionResult> CreateCourse(CreateCourseDto dto)
         {
             var result = await _courseService.CreateCourse(dto);
-            if (!result.isSuccess)
-            {
-                if (result.ErrorCode == ErrorCode.ValidationError)
-                {
-                    return Ok(result);
-                }
-                return BadRequest(result);
-            }
-            return Ok(result);
+            return CreateResponse(result);
         }
 
         [HttpPut]
         public async Task<IActionResult> UpdateCourse(UpdateCourseDto dto)
         {
             var result = await _courseService.UpdateCourse(dto);
-            if (!result.isSuccess)
-            {
-                if (result.ErrorCode == ErrorCode.ValidationError)
-                {
-                    return Ok(result);
-                }
-                return BadRequest(result);
-            }
-            return Ok(result);
+            return CreateResponse(result);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete]
         public async Task<IActionResult> DeleteCourse(int id)
         {
             await _courseService.DeleteCourse(id);

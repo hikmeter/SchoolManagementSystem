@@ -2,9 +2,12 @@
 {
     public static class ErrorCode
     {
-        public const string NotFound = "Bulunamadı!";
-        public const string Unauthorized = "Yetkisiz erişim!";
-        public const string Exception = "Sunucu hatası oluştu!";
-        public const string ValidationError = "Doğrulama hatası!";
+        public const string NotFound = "NotFound";
+        public const string Unauthorized = "Unauthorized";
+        public const string Exception = "Exception";
+        public const string ValidationError = "ValidationError";
+        public const string DuplicateError = "DuplicateError";
+        public const string Forbidden = "Forbidden";
+        public const string BadRequest = "BadRequest";
     }
 }

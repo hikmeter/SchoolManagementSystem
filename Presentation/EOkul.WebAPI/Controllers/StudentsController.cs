@@ -1,5 +1,4 @@
-﻿using EOkul.Application.Dtos.ResponseDtos;
-using EOkul.Application.Dtos.StudentDtos;
+﻿using EOkul.Application.Dtos.StudentDtos;
 using EOkul.Application.Services.Abstract;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,7 +6,7 @@ namespace EOkul.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class StudentsController : ControllerBase
+    public class StudentsController : BaseController
     {
         private readonly IStudentService _studentService;
 
@@ -55,30 +54,14 @@ namespace EOkul.WebAPI.Controllers
         public async Task<IActionResult> CreateStudent(CreateStudentDto dto)
         {
             var result = await _studentService.CreateStudent(dto);
-            if (!result.isSuccess)
-            {
-                if (result.ErrorCode == ErrorCode.ValidationError)
-                {
-                    return Ok(result);
-                }
-                return BadRequest(result);
-            }
-            return Ok(result);
+            return CreateResponse(result);
         }
 
         [HttpPut]
         public async Task<IActionResult> UpdateStudent(UpdateStudentDto dto)
         {
             var result = await _studentService.UpdateStudent(dto);
-            if (!result.isSuccess)
-            {
-                if (result.ErrorCode == ErrorCode.ValidationError)
-                {
-                    return Ok(result);
-                }
-                return BadRequest(result);
-            }
-            return Ok(result);
+            return CreateResponse(result);
         }
 
         [HttpDelete]

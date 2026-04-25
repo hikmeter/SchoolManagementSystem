@@ -6,7 +6,7 @@ namespace EOkul.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ClasroomsController : ControllerBase
+    public class ClasroomsController : BaseController
     {
         private readonly IClassroomService _classroomService;
 
