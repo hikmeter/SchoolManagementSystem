@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="tr" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: head}"></head>
+
+<body>
+	<div class="d-flex" id="wrapper">
+
+		<div th:replace="~{fragments/layout :: sidebar}"></div>
+
+		<div id="page-content-wrapper">
+
+			<div th:replace="~{fragments/layout :: navbar}"></div>
+			<div class="container-fluid px-4 py-4">
+				<div class="d-flex justify-content-between align-items-center mb-4">
+					<h2>Yeni Ders Ekle</h2>
+					<a th:href="@{/course/list}" class="btn btn-secondary"><i
+						class="bi bi-arrow-left me-1"></i> Ders Listesine Dön</a>
+				</div>
+
+				<div class="card mb-4">
+					<div class="card-header bg-white">
+						<i class="bi bi-plus-circle me-1"></i> Ders Detayları
+					</div>
+					<div class="card-body">
+						<form th:action="@{/course}" th:object="${courseDTO}" method="post">
+							<div class="row mb-3">
+								<div class="col-md-6">
+									<label for="courseName" class="form-label">Ders Adı</label> <input
+										th:field="*{courseName}" type="text" class="form-control"
+										id="courseName" placeholder="örn: Web Teknolojileri" required>
+									<div class="invalid-feedback"
+										th:if="${#fields.hasErrors('courseName')}" th:errors="*{courseName}">
+									</div>
+								</div>
+
+								<div class="col-md-6">
+									<label for="courseCode" class="form-label">Ders Kodu</label> <input
+										th:field="*{courseCode}" type="text" class="form-control" 
+										th:classappend="${#fields.hasErrors('courseCode')} ? is-invalid : ''" id="courseCode"
+										placeholder="örn: BM101" required>
+									<div class="invalid-feedback"
+										th:if="${#fields.hasErrors('courseCode')}" th:errors="*{courseCode}">
+									</div>
+								</div>
+								
+							</div>
+							<div class="row mb-3">
+								<div class="col-md-6">
+									<label for="duration" class="form-label">Yarıyıl</label> <input
+										th:field="*{semester}" type="text" class="form-control" id="*{semester}"
+										placeholder="örn: 3. Yarıyıl" required>
+									<div class="invalid-feedback"
+										th:if="${#fields.hasErrors('semester')}" th:errors="*{semester}">
+									</div>
+									
+								</div>
+								<div class="col-md-6">
+									<label for="fee" class="form-label">Ders Ücreti</label> <input
+										th:field="*{fee}" type="number" min="0" class="form-control" id="fee"
+										placeholder="örn: 700₺" required>
+									<div class="invalid-feedback"
+										th:if="${#fields.hasErrors('fee')}" th:errors="*{fee}">
+									</div>
+								</div>
+								
+							</div>
+							<div class="mb-3">
+								<label for="description" class="form-label">Açıklama</label>
+								<textarea th:field="*{description}" class="form-control" id="description" rows="4"
+									placeholder="Ders Açıklaması Giriniz..."></textarea>
+								<div class="invalid-feedback"
+										th:if="${#fields.hasErrors('description')}" th:errors="*{description}">
+									</div>
+							</div>
+							
+							<div class="d-flex justify-content-end">
+								<button type="reset" class="btn btn-light me-2">Sıfırla</button>
+								<button type="submit" class="btn btn-primary">
+									<i class="bi bi-save me-1"></i> Dersi Kaydet
+								</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+
+</html>
