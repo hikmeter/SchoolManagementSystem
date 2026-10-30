@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="tr" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: head}"></head>
+
+<body>
+	<div class="d-flex" id="wrapper">
+
+		<div th:replace="~{fragments/layout :: sidebar}"></div>
+
+		<div id="page-content-wrapper">
+
+			<div th:replace="~{fragments/layout :: navbar}"></div>
+
+			<div class="container-fluid px-4 py-4">
+				<div class="d-flex justify-content-between align-items-center mb-4">
+					<h2>Yeni Öğrenci Ekle</h2>
+					<a th:href="@{/student/list}" class="btn btn-secondary"><i
+						class="bi bi-arrow-left me-1"></i> Öğrenci Listesine Dön</a>
+				</div>
+
+				<div class="card mb-4">
+					<div class="card-header bg-white">
+						<i class="bi bi-person-plus me-1"></i> Öğrenci Detayları
+					</div>
+					<div class="card-body">
+						<form th:action="@{/student}" th:object="${studentDTO}" method="post">
+							<div class="row mb-3">
+								<div class="col-md-6">
+									<label for="firstName" class="form-label">Ad</label> <input
+										th:field="*{firstName}" type="text" class="form-control"
+										th:classappend="${#fields.hasErrors('firstName')} ? is-invalid : ''" id="firstName"
+										placeholder="örn: Ali" required>
+									<div class="invalid-feedback"
+										th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<label for="lastName" class="form-label">Soyad</label> <input
+										th:field="*{lastName}" type="text" class="form-control"
+										th:classappend="${#fields.hasErrors('lastName')} ? is-invalid : ''" id="lastName"
+										placeholder="örn: YILMAZ" required>
+									<div class="invalid-feedback"
+										th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">
+									</div>
+								</div>
+							</div>
+							<div class="row mb-3">
+								<div class="col-md-6">
+									<label for="email" class="form-label">E-Posta Adresi</label> <input
+										th:field="*{email}" type="email" class="form-control" 
+										th:classappend="${#fields.hasErrors('email')} ? is-invalid : ''" id="email"
+										placeholder="örn: ali.yilmaz@ornek.com" required>
+									<div class="invalid-feedback"
+										th:if="${#fields.hasErrors('email')}" th:errors="*{email}">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<label for="phone" class="form-label">Telefon Numarası</label> <input
+										th:field="*{phoneNumber}" type="tel" class="form-control" 
+										th:classappend="${#fields.hasErrors('phoneNumber')} ? is-invalid : ''" id="phone"
+										placeholder="örn: 5012345678">
+									<div class="invalid-feedback"
+										th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}">
+									</div>
+								</div>
+							</div>
+							<div class="mb-3">
+								<label for="address" class="form-label">Adres</label>
+								<textarea th:field="*{address}" class="form-control" 
+								th:classappend="${#fields.hasErrors('address')} ? is-invalid : ''" id="address" rows="3"
+									placeholder="Tam Adresi Giriniz..."></textarea>
+								<div class="invalid-feedback"
+										th:if="${#fields.hasErrors('address')}" th:errors="*{address}">
+									</div>	
+							</div>
+							<div class="d-flex justify-content-end">
+								<button type="reset" class="btn btn-light me-2">Sıfırla</button>
+								<button type="submit" class="btn btn-primary">
+									<i class="bi bi-save me-1"></i> Öğrenciyi Kaydet
+								</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+
+</html>
