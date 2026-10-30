@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="tr" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: head}"></head>
+
+<body>
+	<div class="d-flex" id="wrapper">
+
+		<div th:replace="~{fragments/layout :: sidebar}"></div>
+
+		<div id="page-content-wrapper">
+
+			<div th:replace="~{fragments/layout :: navbar}"></div>
+
+			<div class="container-fluid px-4 py-4">
+				<div class="d-flex justify-content-between align-items-center mb-4">
+					<h2>Ders Detayları</h2>
+					<a th:href="@{/course/list}" class="btn btn-secondary"><i
+						class="bi bi-arrow-left me-1"></i> Ders Listesine Dön</a>
+				</div>
+
+				<div class="card mb-4">
+					<div class="card-header bg-white">
+						<i class="bi bi-info-circle me-1"></i> Bilgi
+					</div>
+					<div class="card-body">
+						<div class="row mb-3">
+							<div class="col-md-3 fw-bold">Ders Adı:</div>
+							<div class="col-md-9" th:text="${course.courseName}"></div>
+						</div>
+						<div class="row mb-3">
+							<div class="col-md-3 fw-bold">Ders Kodu:</div>
+							<div class="col-md-9" th:text="${course.courseCode}"></div>
+						</div>
+						<div class="row mb-3">
+							<div class="col-md-3 fw-bold">Ders Ücreti:</div>
+							<div class="col-md-9" th:text="'₺' + ${course.fee}"></div>
+						</div>
+						<div class="row mb-3">
+							<div class="col-md-3 fw-bold">Yarıyıl:</div>
+							<div class="col-md-9" th:text="${course.semester}"></div>
+						</div>
+						<div class="row mb-3">
+							<div class="col-md-3 fw-bold">Aktif Mi?</div>
+							<div class="col-md-9" th:text="${course.active} ? 'Evet' : 'Hayır'"></div>
+						</div>
+						<div class="row mb-3">
+							<div class="col-md-3 fw-bold">Açıklama:</div>
+							<div class="col-md-9">
+								<p th:text="${course.description}"></p>
+							</div>
+						</div>
+					</div>
+					<div class="card-footer bg-white">
+						<a th:href="@{'/course/' + ${course.id} + '/edit'}" class="btn btn-warning text-white"><i
+							class="bi bi-pencil me-1"></i> Dersi Düzenle</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+
+</html>

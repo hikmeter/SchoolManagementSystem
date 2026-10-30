@@ -19,11 +19,13 @@ public class CourseDTO {
 
 	@NotBlank(message = "Ders Yarıyılı Boş Olamaz!")
 	private String semester;
+	
+	private boolean active;
 
 	@NotNull(message = "Ders Ücreti Boş Olamaz!")
 	private BigDecimal fee;
 	
-	@Size(max = 1115, message = "Ders Açıklaması En Fazla 1000 Karakter Olabilir!")
+	@Size(max = 1115, message = "Ders Açıklaması En Fazla 1115 Karakter Olabilir!")
 	private String description;
 
 	public long getId() {
@@ -56,6 +58,14 @@ public class CourseDTO {
 
 	public void setSemester(String semester) {
 		this.semester = semester;
+	}
+	
+	public boolean isActive() {
+	    return active;
+	}
+
+	public void setActive(boolean active) {
+	    this.active = active;
 	}
 
 	public BigDecimal getFee() {

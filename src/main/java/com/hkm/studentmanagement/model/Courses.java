@@ -27,7 +27,7 @@ public class Courses {
 	private String semester;
 	
 	@Column(nullable = false)
-	private boolean isActive = true;
+	private boolean active = true;
 
 	@Column(precision = 12, scale = 2, nullable = false)
 	private BigDecimal fee;
@@ -76,11 +76,11 @@ public class Courses {
 	}
 
 	public boolean isActive() {
-		return isActive;
+	    return active;
 	}
 
-	public void setActive(boolean isActive) {
-		this.isActive = isActive;
+	public void setActive(boolean active) {
+	    this.active = active;
 	}
 
 	public BigDecimal getFee() {

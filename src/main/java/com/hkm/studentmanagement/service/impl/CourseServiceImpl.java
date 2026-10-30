@@ -44,10 +44,32 @@ public class CourseServiceImpl implements CourseService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public Page<CourseDTO> getCourses(int page, int size) {
 		log.info("Ders listesi getiriliyor: ", page);
 		PageRequest pageRequest = PageRequest.of(page, size, Sort.by(Direction.DESC, "id"));
-		return courseRepository.findByIsActiveTrue(pageRequest).map(course -> modelMapper.map(course, CourseDTO.class));
+		return courseRepository.findByActiveTrue(pageRequest).map(course -> modelMapper.map(course, CourseDTO.class));
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public CourseDTO getCourseById(long id) {
+		Courses courses = courseRepository.findById(id).orElseThrow(() -> new RuntimeException("Ders Bulunamadı!"));
+		return modelMapper.map(courses, CourseDTO.class);
+	}
+
+	@Override
+	public CourseDTO updateCourse(Long id, CourseDTO dto) {
+		Courses courses = courseRepository.findById(id).orElseThrow(() -> new RuntimeException("Ders Bulunamadı!"));
+		modelMapper.map(dto,courses);
+		Courses updatedCourses = courseRepository.save(courses);
+		return modelMapper.map(updatedCourses, dto.getClass());
+	}
+
+	@Override
+	public boolean existsByCourseCodeIgnoreCaseAndIdNot(String code, long id) {
+		log.info("Ders kodu ve ID benzersizliği kontrol ediliyor, id: {},  kod: {}  ", id, code);
+		return courseRepository.existsByCourseCodeIgnoreCaseAndIdNot(code, id);
 	}
 
 }

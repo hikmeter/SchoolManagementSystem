@@ -45,12 +45,12 @@
 										<td data-label="ID" th:text="${course.id}"></td>
 										<td data-label="Course Name" th:text="${course.courseName}"></td>
 										<td data-label="Couse Code" th:text="${course.courseCode}"></td>
-										<td data-label="Couse Fees" th:text="${course.fee}">₺</td>
+										<td data-label="Couse Fees" th:text="'₺' + ${course.fee}"></td>
 										<td data-label="Duration" th:text="${course.semester}"></td>
 
-										<td data-label="Actions"><a href="view-course.html"
+										<td data-label="Actions"><a th:href="@{'/course/' + ${course.id}}"
 											class="btn btn-sm btn-info text-white me-1" title="Görüntüle"><i
-												class="bi bi-eye"></i></a> <a href="edit-course.html"
+												class="bi bi-eye"></i></a> <a th:href="@{'/course/' + ${course.id} + '/edit'}"
 											class="btn btn-sm btn-warning text-white me-1" title="Düzenle"><i
 												class="bi bi-pencil"></i></a></td>
 									</tr>

@@ -10,5 +10,11 @@ public interface CourseService {
 	
 	public boolean existsByCourseCodeIgnoreCase(String code);
 	
+	public boolean existsByCourseCodeIgnoreCaseAndIdNot(String code, long id);
+	
 	public Page<CourseDTO> getCourses(int page, int size);
+	
+	public CourseDTO getCourseById(long id);
+	
+	public CourseDTO updateCourse(Long id, CourseDTO dto);
 }
