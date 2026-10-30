@@ -32,7 +32,7 @@ public class Courses {
 	@Column(precision = 12, scale = 2, nullable = false)
 	private BigDecimal fee;
 	
-	@Column(length = 1000)
+	@Column(length = 1115)
 	private String description;
 	
 	@Column(nullable = false, updatable = false)

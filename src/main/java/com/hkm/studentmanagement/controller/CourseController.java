@@ -1,5 +1,8 @@
 package com.hkm.studentmanagement.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -7,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.hkm.studentmanagement.dto.CourseDTO;
@@ -18,7 +22,9 @@ import jakarta.validation.Valid;
 @RequestMapping("/course")
 public class CourseController {
 	
-	private CourseService courseService;
+	private final CourseService courseService;
+	private static final Logger log = LoggerFactory.getLogger(CourseController.class);
+
 	
 	public CourseController(CourseService courseService) {
 		this.courseService = courseService;
@@ -26,23 +32,32 @@ public class CourseController {
 
 	@GetMapping("/new")
 	public String showCreateCourse(Model model) {
+		log.info("GET /course/new - Yeni ders ekleme sayfası.");
 		model.addAttribute("courseDTO", new CourseDTO());
 		return "add-course";
 	}
 	
 	@GetMapping("/list")
-	public String listCourses() {
+	public String listCourses(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size, Model model,
+							  @RequestParam(value = "message", required = false) String message)  {
+		log.info("GET /course/list - Ders listeleme sayfası.");
+		Page<CourseDTO> courses =  courseService.getCourses(page, size);
+		model.addAttribute("courses", courses);
+		model.addAttribute("message", message);
 		return "courses";
 	}
 	
 	@PostMapping
 	public String createCourse(@Valid @ModelAttribute("courseDTO") CourseDTO courseDTO, BindingResult bindingResult, Model model,
 			RedirectAttributes redirectAttributes) {
+		log.info("POST /course - Yeni ders ekleme isteği alındı.");
 		if(bindingResult.hasErrors()) {
+			log.error("POST /course - Doğrulama hatalarından dolayı kayıt eklenmedi.");
 			return "add-course";
 		}
 		
 		if(courseService.existsByCourseCodeIgnoreCase(courseDTO.getCourseCode())) {
+			log.error("POST /course - Ders kodu benzersizliği hatasından dolayı kayıt eklenmedi.");
 			bindingResult.rejectValue("courseCode", null, "Ders Kodu Benzersiz Olmalıdır!");
 			return "add-course";
 		}
@@ -50,7 +65,7 @@ public class CourseController {
 		courseService.createCourse(courseDTO);
 		
 		redirectAttributes.addAttribute("message", "Ders Başarıyla Eklendi!");
-		
+		log.info("POST /course - Ders başarıyla eklendi.");
 		return "redirect:/course/list";
 	}
 }

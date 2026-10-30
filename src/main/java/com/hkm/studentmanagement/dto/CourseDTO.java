@@ -23,7 +23,7 @@ public class CourseDTO {
 	@NotNull(message = "Ders Ücreti Boş Olamaz!")
 	private BigDecimal fee;
 	
-	@Size(max = 1000, message = "Ders Açıklaması En Fazla 1000 Karakter Olabilir!")
+	@Size(max = 1115, message = "Ders Açıklaması En Fazla 1000 Karakter Olabilir!")
 	private String description;
 
 	public long getId() {

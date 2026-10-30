@@ -68,7 +68,8 @@
 							<div class="mb-3">
 								<label for="description" class="form-label">Açıklama</label>
 								<textarea th:field="*{description}" class="form-control" id="description" rows="4"
-									placeholder="Ders Açıklaması Giriniz..."></textarea>
+									placeholder="Ders Açıklaması Giriniz..." 
+									th:classappend="${#fields.hasErrors('description')} ? is-invalid : ''"></textarea>
 								<div class="invalid-feedback"
 										th:if="${#fields.hasErrors('description')}" th:errors="*{description}">
 									</div>

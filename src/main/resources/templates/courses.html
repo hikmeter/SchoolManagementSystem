@@ -14,12 +14,12 @@
 
 			<div class="container-fluid px-4 py-4">
 				<div class="d-flex justify-content-between align-items-center mb-4">
-					<h2>Courses</h2>
+					<h2>Dersler</h2>
 					<a th:href="@{/course/new}" class="btn btn-primary"><i
 						class="bi bi-plus-lg me-1"></i> Yeni Ders Ekle</a>
 				</div>
 
-				<div th:if="${message}" class="alert alert-danger text-center"
+				<div th:if="${message}" class="alert alert-success text-center"
 					role="alert" th:text="${message}"></div>
 
 				<div class="card mb-4">
@@ -40,73 +40,38 @@
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
-										<td data-label="ID">101</td>
-										<td data-label="Course Name">Introduction to Computer
-											Science</td>
-										<td data-label="Couse Code">ICS</td>
-										<td data-label="Couse Fees">Rs.3999</td>
-										<td data-label="Duration">4 Months</td>
+								<div class="text-muted" th:if="${courses.content.isEmpty()}">Ders Bulunamadı!</div>
+									<tr th:each="course: ${courses.content}">
+										<td data-label="ID" th:text="${course.id}"></td>
+										<td data-label="Course Name" th:text="${course.courseName}"></td>
+										<td data-label="Couse Code" th:text="${course.courseCode}"></td>
+										<td data-label="Couse Fees" th:text="${course.fee}">₺</td>
+										<td data-label="Duration" th:text="${course.semester}"></td>
 
 										<td data-label="Actions"><a href="view-course.html"
-											class="btn btn-sm btn-info text-white me-1" title="View"><i
+											class="btn btn-sm btn-info text-white me-1" title="Görüntüle"><i
 												class="bi bi-eye"></i></a> <a href="edit-course.html"
-											class="btn btn-sm btn-warning text-white me-1" title="Edit"><i
-												class="bi bi-pencil"></i></a></td>
-									</tr>
-									<tr>
-										<td data-label="ID">102</td>
-										<td data-label="Course Name">Web Development Bootcamp</td>
-										<td data-label="Couse Code">WDB</td>
-										<td data-label="Couse Fees">Rs.7999</td>
-										<td data-label="Duration">6 Months</td>
-										<td data-label="Actions"><a href="view-course.html"
-											class="btn btn-sm btn-info text-white me-1" title="View"><i
-												class="bi bi-eye"></i></a> <a href="edit-course.html"
-											class="btn btn-sm btn-warning text-white me-1" title="Edit"><i
-												class="bi bi-pencil"></i></a></td>
-									</tr>
-									<tr>
-										<td data-label="ID">103</td>
-										<td data-label="Course Name">Data Structures & Algorithms</td>
-										<td data-label="Couse Code">DSA</td>
-										<td data-label="Couse Fees">Rs.5999</td>
-										<td data-label="Duration">5 Months</td>
-										<td data-label="Actions"><a href="view-course.html"
-											class="btn btn-sm btn-info text-white me-1" title="View"><i
-												class="bi bi-eye"></i></a> <a href="edit-course.html"
-											class="btn btn-sm btn-warning text-white me-1" title="Edit"><i
+											class="btn btn-sm btn-warning text-white me-1" title="Düzenle"><i
 												class="bi bi-pencil"></i></a></td>
 									</tr>
 								</tbody>
 							</table>
 						</div>
-						<nav aria-label="Course pagination">
+						<nav th:if="${courses.totalPages} > 1" aria-label="Course pagination">
 							<ul class="pagination justify-content-end">
 
-								<!-- Previous -->
-								<li class="page-item"><a class="page-link"
-									href="/courses?page=1&size=10">Önceki</a></li>
+								<!-- Öncesi -->
+								<li class="page-item" th:classappend="${courses.first} ? 'disabled'"><a class="page-link"
+									th:href="@{'/course/list'(page=${courses.number > 0 ? courses.number-1 : 0}, size=${courses.size})}">Önceki</a></li>
 
-								<!-- Page numbers -->
-								<li class="page-item"><a class="page-link"
-									href="/courses?page=0&size=10">1</a></li>
+								<!-- Sayfa numaraları -->
+								<li class="page-item" th:each="pageNum : ${#numbers.sequence(0, courses.totalPages - 1)}"
+								th:classappend="${pageNum} == ${courses.number} ? 'active' : ''"><a class="page-link"
+									th:href="@{'/course/list'(page=${pageNum}, size=${courses.size})}" th:text="${pageNum + 1}"></a></li>
 
-								<li class="page-item"><a class="page-link"
-									href="/courses?page=1&size=10">2</a></li>
-
-								<li class="page-item active"><a class="page-link"
-									href="/courses?page=2&size=10">3</a></li>
-
-								<li class="page-item"><a class="page-link"
-									href="/courses?page=3&size=10">4</a></li>
-
-								<li class="page-item"><a class="page-link"
-									href="/courses?page=4&size=10">5</a></li>
-
-								<!-- Next -->
-								<li class="page-item"><a class="page-link"
-									href="/courses?page=3&size=10">Sonraki</a></li>
+								<!-- Sonrası -->
+								<li class="page-item" th:classappend="${courses.last} ? 'disabled'"><a class="page-link"
+									th:href="@{'/course/list'(page=${courses.number + 1}, size=${courses.size})}">Sonraki</a></li>
 
 							</ul>
 						</nav>
