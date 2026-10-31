@@ -18,7 +18,7 @@
 					<a th:href="@{/student/new}" class="btn btn-primary"><i
 						class="bi bi-plus-lg me-1"></i> Yeni Öğrenci Ekle</a>
 				</div>
-				
+
 				<div th:if="${message}" class="alert alert-success text-center"
 					role="alert" th:text="${message}"></div>
 
@@ -39,68 +39,46 @@
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
-										<td data-label="ID">#STU001</td>
-										<td data-label="Name">John Doe</td>
-										<td data-label="Email">john.doe@example.com</td>
-										<td data-label="Phone">12454564554</td>
+									<div class="text-muted" th:if="${students.content.isEmpty()}">Öğrenci
+										Bulunamadı!</div>
+									<tr th:each="student: ${students.content}">
+										<td data-label="ID" th:text="${student.id}"></td>
+										<td data-label="Name"
+											th:text="${student.firstName + ' ' + student.lastName}"></td>
+										<td data-label="Email" th:text="${student.email}"></td>
+										<td data-label="Phone" th:text="${student.phoneNumber}"></td>
 										<td data-label="Actions"><a href="view-student.html"
-											class="btn btn-sm btn-info text-white me-1" title="View"><i
+											class="btn btn-sm btn-info text-white me-1" title="Görüntüle"><i
 												class="bi bi-eye"></i></a> <a href="edit-student.html"
-											class="btn btn-sm btn-warning text-white me-1" title="Edit"><i
-												class="bi bi-pencil"></i></a></td>
-									</tr>
-									<tr>
-										<td data-label="ID">#STU002</td>
-										<td data-label="Name">Jane Smith</td>
-										<td data-label="Email">jane.smith@example.com</td>
-										<td data-label="Phone">12454564554</td>
-										<td data-label="Actions"><a href="view-student.html"
-											class="btn btn-sm btn-info text-white me-1" title="View"><i
-												class="bi bi-eye"></i></a> <a href="edit-student.html"
-											class="btn btn-sm btn-warning text-white me-1" title="Edit"><i
-												class="bi bi-pencil"></i></a></td>
-									</tr>
-									<tr>
-										<td data-label="ID">#STU003</td>
-										<td data-label="Name">Mike Johnson</td>
-										<td data-label="Email">mike.j@example.com</td>
-										<td data-label="Phone">12454564554</td>
-										<td data-label="Actions"><a href="view-student.html"
-											class="btn btn-sm btn-info text-white me-1" title="View"><i
-												class="bi bi-eye"></i></a> <a href="edit-student.html"
-											class="btn btn-sm btn-warning text-white me-1" title="Edit"><i
-												class="bi bi-pencil"></i></a></td>
+											class="btn btn-sm btn-warning text-white me-1"
+											title="Güncelle"><i class="bi bi-pencil"></i></a></td>
 									</tr>
 								</tbody>
 							</table>
 						</div>
-						<nav aria-label="Course pagination">
+						<nav th:if="${students.totalPages} > 1"
+							aria-label="Course pagination">
 							<ul class="pagination justify-content-end">
 
-								<!-- Previous -->
-								<li class="page-item"><a class="page-link"
-									href="/courses?page=1&size=10">Previous</a></li>
+								<!-- Öncesi -->
+								<li class="page-item"
+									th:classappend="${students.first} ? 'disabled'"><a
+									class="page-link"
+									th:href="@{'/student/list'(page=${students.number > 0 ? students.number-1 : 0}, size=${students.size})}">Önceki</a></li>
 
-								<!-- Page numbers -->
-								<li class="page-item"><a class="page-link"
-									href="/courses?page=0&size=10">1</a></li>
+								<!-- Sayfa numaraları -->
+								<li class="page-item"
+									th:each="pageNum : ${#numbers.sequence(0, students.totalPages - 1)}"
+									th:classappend="${pageNum} == ${students.number} ? 'active' : ''"><a
+									class="page-link"
+									th:href="@{'/student/list'(page=${pageNum}, size=${students.size})}"
+									th:text="${pageNum + 1}"></a></li>
 
-								<li class="page-item"><a class="page-link"
-									href="/courses?page=1&size=10">2</a></li>
-
-								<li class="page-item active"><a class="page-link"
-									href="/courses?page=2&size=10">3</a></li>
-
-								<li class="page-item"><a class="page-link"
-									href="/courses?page=3&size=10">4</a></li>
-
-								<li class="page-item"><a class="page-link"
-									href="/courses?page=4&size=10">5</a></li>
-
-								<!-- Next -->
-								<li class="page-item"><a class="page-link"
-									href="/courses?page=3&size=10">Next</a></li>
+								<!-- Sonrası -->
+								<li class="page-item"
+									th:classappend="${students.last} ? 'disabled'"><a
+									class="page-link"
+									th:href="@{'/student/list'(page=${students.number + 1}, size=${students.size})}">Sonraki</a></li>
 
 							</ul>
 						</nav>
