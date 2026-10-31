@@ -48,9 +48,29 @@ public class StudentServiceImpl implements StudentService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public Page<StudentDTO> getStudents(int page, int size) {
 		log.info("Öğrenci listeleme işlemi.");
 		PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.DESC, "id");
 		return studentRepository.findByActiveTrue(pageRequest).map(student -> modelMapper.map(student, StudentDTO.class));
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public StudentDTO getStudentById(long id) {
+		Students students = studentRepository.findById(id).orElseThrow(() -> new RuntimeException("Öğrenci Bulunamadı!"));
+		return modelMapper.map(students, StudentDTO.class);		
+	}
+
+	@Override
+	public boolean existsByEmailIgnoreCaseAndIdNot(String email, long id) {
+		log.info("E-Posta adresi benzersizliği kontrol ediliyor: {}, {} ", email, id);
+		return studentRepository.existsByEmailIgnoreCaseAndIdNot(email, id);
+	}
+
+	@Override
+	public boolean existsByPhoneNumberAndIdNot(String phone, long id) {
+		log.info("Telefon numarası benzersizliği kontrol ediliyor: {}, {} ", phone, id);
+		return studentRepository.existsByPhoneNumberAndIdNot(phone, id);
 	}
 }

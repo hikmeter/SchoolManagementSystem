@@ -52,20 +52,20 @@ public class StudentController {
 	@PostMapping()
 	public String createStudent(@Valid @ModelAttribute("studentDTO") StudentDTO studentDTO, BindingResult bindingResult,
 			Model model, RedirectAttributes redirectAttributes) {
-		log.info("POST /course - Yeni öğrenci ekleme isteği alındı.");
+		log.info("POST /student - Yeni öğrenci ekleme isteği alındı.");
 		if (bindingResult.hasErrors()) {
-			log.error("POST /course - Doğrulama hatalarından dolayı kayıt eklenmedi.");
+			log.error("POST /student - Doğrulama hatalarından dolayı kayıt eklenmedi.");
 			return "add-student";
 		}
 		
 		if (studentService.existsByEmailIgnoreCase(studentDTO.getEmail())) {
-			log.error("POST /course - E-Posta adresi benzersizliği hatasından dolayı kayıt eklenmedi.");
+			log.error("POST /student - E-Posta adresi benzersizliği hatasından dolayı kayıt eklenmedi.");
 			bindingResult.rejectValue("email", null, "E-Posta Adresi Benzersiz Olmalıdır!");
 			return "add-student";
 		}
 		
 		if (studentService.existsByPhoneNumber(studentDTO.getPhoneNumber())) {
-			log.error("POST /course - Telefon numarası benzersizliği hatasından dolayı kayıt eklenmedi.");
+			log.error("POST /student - Telefon numarası benzersizliği hatasından dolayı kayıt eklenmedi.");
 			bindingResult.rejectValue("phoneNumber", null, "Telefon Numarası Benzersiz Olmalıdır!");
 			return "add-student";
 		}
@@ -73,6 +73,48 @@ public class StudentController {
 		studentService.createStudent(studentDTO);
 		redirectAttributes.addAttribute("message", "Öğrenci Başarıyla Eklendi!");
 		log.info("POST /course - Öğrenci başarıyla eklendi.");
+		
+		return "redirect:/student/list";
+	}
+	
+	@GetMapping("{id}")
+	public String getStudentById(@PathVariable long id, Model model) {
+		StudentDTO student = studentService.getStudentById(id);
+		model.addAttribute("student", student);
+		return "view-student";
+	}
+	
+	@GetMapping("{id}/edit")
+	public String editCourse(@PathVariable long id, Model model) {
+		StudentDTO student = studentService.getStudentById(id);
+		model.addAttribute("student", student);
+		return "edit-student";
+	}
+	
+	@PostMapping("{id}/update")
+	public String updateStudent(@Valid @ModelAttribute("studentDTO") StudentDTO studentDTO, BindingResult bindingResult,
+			Model model, RedirectAttributes redirectAttributes) {
+		log.info("POST id/student - Yeni öğrenci ekleme isteği alındı.");
+		if (bindingResult.hasErrors()) {
+			log.error("POST /student - Doğrulama hatalarından dolayı kayıt eklenmedi.");
+			return "edit-student";
+		}
+		
+		if (studentService.existsByEmailIgnoreCaseAndIdNot(studentDTO.getEmail(), studentDTO.getId())) {
+			log.error("POST /student - E-Posta adresi benzersizliği hatasından dolayı kayıt eklenmedi.");
+			bindingResult.rejectValue("email", null, "E-Posta Adresi Benzersiz Olmalıdır!");
+			return "edit-student";
+		}
+		
+		if (studentService.existsByPhoneNumberAndIdNot(studentDTO.getPhoneNumber(), studentDTO.getId())) {
+			log.error("POST /student - Telefon numarası benzersizliği hatasından dolayı kayıt eklenmedi.");
+			bindingResult.rejectValue("phoneNumber", null, "Telefon Numarası Benzersiz Olmalıdır!");
+			return "add-student";
+		}
+		
+		studentService.createStudent(studentDTO);
+		redirectAttributes.addAttribute("message", "Öğrenci Başarıyla Güncellendi!");
+		log.info("POST /student - Öğrenci başarıyla güncellendi.");
 		
 		return "redirect:/student/list";
 	}

@@ -47,9 +47,9 @@
 											th:text="${student.firstName + ' ' + student.lastName}"></td>
 										<td data-label="Email" th:text="${student.email}"></td>
 										<td data-label="Phone" th:text="${student.phoneNumber}"></td>
-										<td data-label="Actions"><a href="view-student.html"
+										<td data-label="Actions"><a th:href="@{/student/{id}(id=${student.id})}"
 											class="btn btn-sm btn-info text-white me-1" title="Görüntüle"><i
-												class="bi bi-eye"></i></a> <a href="edit-student.html"
+												class="bi bi-eye"></i></a> <a th:href="@{/student/{id}/edit(id=${student.id})}"
 											class="btn btn-sm btn-warning text-white me-1"
 											title="Güncelle"><i class="bi bi-pencil"></i></a></td>
 									</tr>

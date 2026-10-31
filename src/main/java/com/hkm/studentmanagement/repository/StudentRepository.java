@@ -12,5 +12,9 @@ public interface StudentRepository extends JpaRepository<Students, Long> {
 	
 	public boolean existsByPhoneNumber(String phone);
 	
+	public boolean existsByEmailIgnoreCaseAndIdNot(String email, long id);
+	
+	public boolean existsByPhoneNumberAndIdNot(String phone, long id);
+	
 	public Page<Students> findByActiveTrue(Pageable pageable);
 }
