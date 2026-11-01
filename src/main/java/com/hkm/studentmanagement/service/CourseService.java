@@ -1,5 +1,7 @@
 package com.hkm.studentmanagement.service;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 
 import com.hkm.studentmanagement.dto.CourseDTO;
@@ -17,4 +19,6 @@ public interface CourseService {
 	public CourseDTO getCourseById(long id);
 	
 	public CourseDTO updateCourse(Long id, CourseDTO dto);
+	
+	public List<CourseDTO> getAllCourses();
 }

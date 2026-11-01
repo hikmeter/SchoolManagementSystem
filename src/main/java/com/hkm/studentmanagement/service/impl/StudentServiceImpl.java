@@ -1,5 +1,7 @@
 package com.hkm.studentmanagement.service.impl;
 
+import java.util.List;
+
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -72,5 +74,11 @@ public class StudentServiceImpl implements StudentService {
 	public boolean existsByPhoneNumberAndIdNot(String phone, long id) {
 		log.info("Telefon numarası benzersizliği kontrol ediliyor: {}, {} ", phone, id);
 		return studentRepository.existsByPhoneNumberAndIdNot(phone, id);
+	}
+
+	@Override
+	public List<StudentDTO> getAllStudents() {
+		List<Students> students =  studentRepository.findByActiveTrue(Sort.by("firstName"));
+		return students.stream().map(student -> modelMapper.map(student, StudentDTO.class)).toList();
 	}
 }

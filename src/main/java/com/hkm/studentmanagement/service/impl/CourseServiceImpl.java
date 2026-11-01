@@ -1,5 +1,7 @@
 package com.hkm.studentmanagement.service.impl;
 
+import java.util.List;
+
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -70,6 +72,12 @@ public class CourseServiceImpl implements CourseService {
 	public boolean existsByCourseCodeIgnoreCaseAndIdNot(String code, long id) {
 		log.info("Ders kodu ve ID benzersizliği kontrol ediliyor, id: {},  kod: {}  ", id, code);
 		return courseRepository.existsByCourseCodeIgnoreCaseAndIdNot(code, id);
+	}
+
+	@Override
+	public List<CourseDTO> getAllCourses() {
+		List<Courses> courses = courseRepository.findByActiveTrue(Sort.by("courseName"));
+		return courses.stream().map(course -> modelMapper.map(course, CourseDTO.class)).toList();
 	}
 
 }

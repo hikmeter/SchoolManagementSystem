@@ -1,5 +1,7 @@
 package com.hkm.studentmanagement.service;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 
 import com.hkm.studentmanagement.dto.StudentDTO;
@@ -18,4 +20,6 @@ public interface StudentService {
 	public Page<StudentDTO> getStudents(int page, int size);
 	
 	public StudentDTO getStudentById(long id);
+	
+	public List<StudentDTO> getAllStudents();
 }
